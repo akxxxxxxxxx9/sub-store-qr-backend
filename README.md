@@ -183,9 +183,10 @@ The Compose setup serves the frontend and backend on one HTTPS domain. Caddy
 obtains and renews the TLS certificate automatically, and backend data is kept
 in a named Docker volume.
 
-When building from source, keep this repository and `Sub-Store-Front-End` as
-sibling directories. The frontend checkout must include the QR-code changes if
-you want that feature in the deployed UI.
+When building from source, keep the `sub-store-qr-backend` and
+`sub-store-qr-frontend` checkouts as sibling directories. The frontend
+checkout must include the QR-code changes if you want that feature in the
+deployed UI.
 
 1. Point a DNS record for your domain to the server and allow inbound ports 80
    and 443.

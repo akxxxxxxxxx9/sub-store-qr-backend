@@ -28,7 +28,7 @@ services:
 
   frontend:
     build:
-      context: ../Sub-Store-Front-End
+      context: ../sub-store-qr-frontend
       dockerfile: Dockerfile
       args:
         VITE_API_URL: /
