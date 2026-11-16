@@ -190,8 +190,16 @@ deployed UI.
 
 1. Point a DNS record for your domain to the server and allow inbound ports 80
    and 443.
-2. Copy `.env.example` to `.env` and set `DOMAIN` to your domain.
-3. From this repository's directory, run:
+2. Copy `.env.example` to `.env`, set `DOMAIN`, and choose `ADMIN_USER`.
+3. Generate a password hash:
+
+   ```
+   docker run --rm caddy:2 caddy hash-password --plaintext 'your-long-unique-password'
+   ```
+
+   Put the output in `.env` as a single-quoted value, for example
+   `ADMIN_PASSWORD_HASH='$2a$14$...'`. Keep `.env` private.
+4. From this repository's directory, run:
 
    ```
    docker compose up -d --build
@@ -211,7 +219,10 @@ The public Docker Hub images can be deployed directly with:
 docker compose -f docker-compose.hub.yml up -d
 ```
 
-Open `https://<DOMAIN>`. Backend data is stored in the `backend-data` volume;
+The control panel and backend API require the configured HTTP Basic Auth
+credentials. `/download/*` and `/share/*` remain public so subscription links
+continue to work. Open `https://<DOMAIN>` and enter the admin credentials.
+Backend data is stored in the `backend-data` volume;
 `docker compose down` preserves it. Do not use `docker compose down -v` unless
 you intend to delete that data.
 

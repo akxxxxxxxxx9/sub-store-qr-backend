@@ -1,4 +1,15 @@
 {$DOMAIN} {
-    encode zstd gzip
-    reverse_proxy frontend:80
+	encode zstd gzip
+
+	@public_subscriptions path /download/* /share/*
+	handle @public_subscriptions {
+		reverse_proxy frontend:80
+	}
+
+	handle {
+		basic_auth {
+			{$ADMIN_USER} {$ADMIN_PASSWORD_HASH}
+		}
+		reverse_proxy frontend:80
+	}
 }

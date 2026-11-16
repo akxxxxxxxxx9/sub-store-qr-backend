@@ -38,6 +38,8 @@ services:
     restart: unless-stopped
     environment:
       DOMAIN: ${DOMAIN:?Set DOMAIN in .env}
+      ADMIN_USER: ${ADMIN_USER:?Set ADMIN_USER in .env}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:?Set ADMIN_PASSWORD_HASH in .env}
     ports:
       - "80:80"
       - "443:443"
