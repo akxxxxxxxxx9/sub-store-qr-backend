@@ -177,6 +177,43 @@ SUB_STORE_BACKEND_API_PORT=3000 pnpm run --parallel "/^dev:.*/"
 pnpm bundle:esbuild
 ```
 
+## Docker Compose Deployment
+
+The Compose setup serves the frontend and backend on one HTTPS domain. Caddy
+obtains and renews the TLS certificate automatically, and backend data is kept
+in a named Docker volume.
+
+When building from source, keep this repository and `Sub-Store-Front-End` as
+sibling directories. The frontend checkout must include the QR-code changes if
+you want that feature in the deployed UI.
+
+1. Point a DNS record for your domain to the server and allow inbound ports 80
+   and 443.
+2. Copy `.env.example` to `.env` and set `DOMAIN` to your domain.
+3. From this repository's directory, run:
+
+   ```
+   docker compose up -d --build
+   ```
+
+To deploy prebuilt images instead, copy `sub-store-docker-images.tar` to the
+server, load it, then use the image-only Compose file:
+
+```
+docker load -i sub-store-docker-images.tar
+docker compose -f docker-compose.images.yml up -d
+```
+
+The public Docker Hub images can be deployed directly with:
+
+```
+docker compose -f docker-compose.hub.yml up -d
+```
+
+Open `https://<DOMAIN>`. Backend data is stored in the `backend-data` volume;
+`docker compose down` preserves it. Do not use `docker compose down -v` unless
+you intend to delete that data.
+
 ## LICENSE
 
 This project is under the AGPL-3.0 LICENSE.
